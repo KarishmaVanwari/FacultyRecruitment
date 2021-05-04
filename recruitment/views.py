@@ -34,6 +34,8 @@ def submission_form(request):
         applicant_data['Research_Domain'] = data['research_domain']
         applicant_data['profile_picture'] = request.FILES['profile_photo']
         Applicant.objects.create(**applicant_data)
+        pic = request.FILES['profile_photo']
+        handle_uploaded_file(pic,application_number,'pic')
         # General
         general_data={}
         general_data['full_name'] = data['saluation'] + data['name'].strip()
@@ -57,6 +59,8 @@ def submission_form(request):
         general_data['present_employer'] = data['present_employer']
         general_data['applicant'] = Applicant.objects.get(application_no=application_number) 
         General.objects.create(**general_data)
+        cert = request.FILES['reservation_certificate']
+        handle_uploaded_file(cert,application_number,'cert')
         # Other Information
         otherinformation_data = {}
         otherinformation_data['membership'] = data['miscTa1']
@@ -78,6 +82,8 @@ def submission_form(request):
         signed_data['signature'] = request.FILES['signUpload']
         signed_data['applicant'] = Applicant.objects.get(application_no=application_number)
         Declaration.objects.create(**signed_data)
+        sign = request.FILES['signUpload']
+        handle_uploaded_file(sign,application_number,'sign')
         # Page 4
         # Thesis
         thesis_data = {}
@@ -156,6 +162,8 @@ def submission_form(request):
             academic_details['year_of_passing'] = data.get('yearOfPassing'+str(i),False)
             ans = 'course' + str(i) + '-file'
             academic_details['supporting_documents'] = request.FILES[ans]
+            academic_document = request.FILES[ans]
+            handle_uploaded_file(academic_document,application_number,'academic_document')
             academic_details['applicant'] = Applicant.objects.get(application_no=application_number)
             EducationalQualifications.objects.create(**academic_details)
             # if re.search(r'[12]\d{3}',data.get('yearOfPassing-'+str(i),False)) is None:
@@ -178,6 +186,8 @@ def submission_form(request):
             professional_details['nature'] = data.get('org' + str(i) + '-nature',False)
             ans = 'org' + str(i) + '-file'
             professional_details['supporting_documents'] = request.FILES[ans]
+            professional_document = request.FILES[ans]
+            handle_uploaded_file(professional_document,application_number,'professional_document')
             professional_details['applicant'] = Applicant.objects.get(application_no=application_number)
             EmploymentExp.objects.create(**professional_details)
 
@@ -195,6 +205,8 @@ def submission_form(request):
             books_details['isbn'] = data.get('books' + str(i) + '-number',False)
             ans = 'books' + str(i) + '-file'
             books_details['supporting_documents'] = request.FILES[ans]
+            book_document = request.FILES[ans]
+            handle_uploaded_file(book_document,application_number,'book_document')
             books_details['applicant'] = Applicant.objects.get(application_no=application_number)
             Books.objects.create(**books_details)
         # Chapters
@@ -209,7 +221,10 @@ def submission_form(request):
             chapter_details['publisher'] = data.get('chapters' + str(i) + '-publisher',False)
             chapter_details['date_of_publisher'] = data.get('chapters' + str(i) + '-date_of_publisher',False)
             chapter_details['isbn_issn'] = data.get('chapters' + str(i) + '-number',False)
-            chapter_details['supporting_documents'] = request.FILES['chapters'+str(i)+'-file']
+            ans = 'chapters'+str(i)+'-file'
+            chapter_details['supporting_documents'] = request.FILES[ans]
+            chapter_document = request.FILES[ans]
+            handle_uploaded_file(chapter_document,application_number,'chapter_document')
             chapter_details['applicant'] = Applicant.objects.get(application_no=application_number)
             Chapters.objects.create(**chapter_details)
         # Newspapers Articles
@@ -226,7 +241,10 @@ def submission_form(request):
             news_articles_details['level'] = data.get('news_articles' + str(i) + '-level',False)
             news_articles_details['naas'] = data.get('news_articles' + str(i) + '-naas',False)
             news_articles_details['isbn_issn'] = data.get('news_articles' + str(i) + '-number',False)
-            news_articles_details['supporting_documents'] = request.FILES['news_articles'+str(i)+'-file']
+            ans = 'news_articles'+str(i)+'-file'
+            news_articles_details['supporting_documents'] = request.FILES[ans]
+            news_article_document = request.FILES[ans]
+            handle_uploaded_file(news_article_document,application_number,'news_article_document')
             news_articles_details['applicant'] = Applicant.objects.get(application_no=application_number)
             NewspaperArticle.objects.create(**news_articles_details)
         # Seminar Articles
@@ -243,6 +261,8 @@ def submission_form(request):
             seminar_articles_details['published'] = data.get('semi_articles' + str(i) + '-published',False)
             ans = 'semi_article'+str(i)+'-file'
             seminar_articles_details['supporting_documents'] = request.FILES[ans]
+            seminar_article_document = request.FILES[ans]
+            handle_uploaded_file(seminar_article_document,application_number,'seminar_article_document')
             seminar_articles_details['applicant'] = Applicant.objects.get(application_no=application_number)
             SeminarArticles.objects.create(**seminar_articles_details)
                              
@@ -268,31 +288,10 @@ def submission_form(request):
         # other_details['statement_of_objective'] = data['objective']
         # other_details['any_other_relevant_information'] = data['other_relevant_info']
         # #publication = request.FILES['publications']
-        # #pic = request.FILES['propic']
+        #pic = request.FILES['propic']
         # #cert = request.FILES['cert']
         # #handle_uploaded_file(publication, application_number, 'publications')
         # #handle_uploaded_file(pic, application_number, 'pic')
-        # #handle_uploaded_file(cert, application_number, 'certificate')
-        # #Storing data
-        # Applicant.objects.create(**applicant_data)
-        # academic_detail['applicant'] = Applicant.objects.get(application_no=application_number)
-        # for academic_detail in academic_data:
-        #     EducationalQualifications.objects.create(**academic_detail)
-        
-        # professional_details['applicant'] = Applicant.objects.get(application_no=application_number)
-        # for professional_details in professional_data:
-        #     EmploymentExp.objects.create(**professional_details) 
-        # books_details['applicant'] = Applicant.objects.get(application_no=application_number)
-        # for books_details in books_data:
-        #     Books.objects.create(**books_details)
-        # chapter_details['applicant'] = Applicant.objects.get(application_no=application_number)
-        # for chapter_details in chapters_data:
-        #     Chapters.objects.create(**chapter_details)
-        # news_articles_details['applicant'] = Applicant.objects.get(application_no=application_number)
-        # for news_articles_details in news_articles_data:
-        #     NewspaperArticle.objects.create(**news_articles_details)
-        # seminar_articles_details['applicant'] = Applicant.objects.get(application_no=application_number)
-        # for seminar_articles_details in seminar_articles_data:
-        #     SeminarArticles.objects.create(**seminar_articles_details)    
+        # #handle_uploaded_file(cert, application_number, 'certificate') 
         return render(request, 'recruitment/form.html',{'message':'Congrats! Your application number is '+ application_number})
     return render(request, 'recruitment/form.html', {})
