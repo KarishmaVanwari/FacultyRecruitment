@@ -20,6 +20,14 @@ def admin(request):
 def viewMore(request, application_number):
     return render(request, 'recruitment/view-more.html', {'data':Applicant.objects.filter(application_no=application_number)})
 
+def auth_form(request):
+    if(request.method == 'POST'):
+        auth_data = {}
+        auth_data['email'] = data['username']
+        auth_data['password'] = data['password']
+        auth_data['google_login'] = data['google_login']
+    return render(request, 'recruitment/login.html', { 'message': "Hello"})
+
 def submission_form(request):
     if request.method == 'POST':
         data = request.POST.copy()

@@ -41,37 +41,44 @@
 			<!-- Main -->
 			<div id="main">
 				<!-- Kaam Yahan Krna hai Sbko -->
-
 				<section>
-
-					<div class="flex-container row">
-						<a href="#" class="col-6 col-12-medium">
-							<div class="flex-item-left " style="display: flex; justify-content: space-between; ">
-								<img  style="vertical-align:middle; border-radius: 3px;  " src="../../static/images/google_logo2.png" width="15%" alt="Google_Logo">
-
-								<span style="width: 85%; font-size: larger; display: flex; align-items: center; justify-content: center;">
-									Login with Google
-								</span>
-
-								
+					<form method="POST" action="{% url 'auth_form' %}" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="flex-container row">
+							<div class="col-6 col-12-medium">
+								<label for="username">Email Address: </label>
+							</div>						
+							<div class="col-6 col-12-medium">
+								<input type="text" id="username" name="username">
 							</div>
-						</a>
-
-						<a href="#" class="col-6 col-12-medium">
-							<div class="flex-item-right " style="display: flex; justify-content: space-between; ">
-								<img  style="vertical-align:middle; border-radius: 3px;  " src="../../static/images/google_logo2.png" width="15%" height=auto; alt="Google_Logo">
-
-								<span style="width: 85%; font-size: larger; display: flex; align-items: center; justify-content: center; color: white;">
-									Sign Up with Google
-								</span>
-
-								
+							<div class="col-6 col-12-medium">
+								<label for="password">Password: </label>
 							</div>
-						</a>
-
-
-
-					</div>
+							<div class="col-6 col-12-medium">
+								<input type="password" id="password" name="password">
+							</div>
+							<a href="#" class="col-6 col-12-medium">
+								<div class="flex-item-left " style="display: flex; justify-content: space-between; ">
+									<img  style="vertical-align:middle; border-radius: 3px;  " src="../../static/images/google_logo2.png" width="15%" alt="Google_Logo">
+	
+									<span style="width: 85%; font-size: larger; display: flex; align-items: center; justify-content: center;">
+										Login with Google
+									</span>
+								</div>
+							</a>
+	
+							<a href="#" class="col-6 col-12-medium">
+								<div class="flex-item-right " style="display: flex; justify-content: space-between; ">
+									<img  style="vertical-align:middle; border-radius: 3px;  " src="../../static/images/google_logo2.png" width="15%" height=auto; alt="Google_Logo">
+	
+									<span style="width: 85%; font-size: larger; display: flex; align-items: center; justify-content: center; color: white;">
+										Sign Up with Google
+									</span>
+								</div>
+							</a>
+							<button class="button small primary" type="submit">Submit</button>
+						</div>
+					</form>
 
 				</section>
 			</div>

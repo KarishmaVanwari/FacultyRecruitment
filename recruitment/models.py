@@ -2,7 +2,10 @@ from django.db import models
 from django.conf import settings 
 from django.utils import timezone
 
-
+class Authentication(models.Model): 
+    email = models.CharField(primary_key=True,max_length=25)
+    password = models.CharField(max_length=20)
+    google_login = models.BooleanField()
 
 class Applicant(models.Model):
     ''' Model for applicants personal data '''
